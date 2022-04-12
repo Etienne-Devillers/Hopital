@@ -16,7 +16,7 @@
     <!---------------- Navbar ---------------->
     <nav class="navbar navbar-expand-lg navbar-light bg-blue">
         <div class="container-fluid">
-            <a class="navbar-brand mr-4" href="#">Hopital</a>
+            <a class="navbar-brand mr-4" href="/index.php">Hopital</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
                             Clients
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/controllers/addUser-controller.php">Ajouter un client</a></li>
+                            <li><a class="dropdown-item" href="/controllers/add-patient-controller.php">Ajouter un client</a></li>
                             <li><a class="dropdown-item" href="#">Liste de clients</a></li>
 
                         </ul>

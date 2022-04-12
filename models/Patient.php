@@ -1,15 +1,16 @@
 <?php
 
 
-
+require_once(dirname(__FILE__).'/../config/db.php');
 
 class Patient{
 
     private string $table;
+    private string $id;
     private string $lastname;
     private string $firstname;
     private string $birthdate;
-    private string $phonenumber;
+    private string $phone;
     private string $email;
 
 
@@ -19,16 +20,16 @@ class Patient{
      * @param string $lastname
      * @param string $firstname
      * @param string $birthdate
-     * @param string $phonenumber
+     * @param string $phone
      * @param string $email
      * 
      *      méthode magique __construct, nécessite les champs à ajouter à la table.
      * */
-    public function __construct(string $lastname, string $firstname, string $birthdate, string $phonenumber, string $email){
+    public function __construct(string $lastname, string $firstname, string $birthdate, string $phone, string $email){
         $this->setLastname($lastname);
         $this->setFirstname($firstname);
         $this->setBirthdate($birthdate);
-        $this->setPhonenumber($phonenumber);
+        $this->setPhone($phone);
         $this->setEmail($email);
     }
 
@@ -38,11 +39,19 @@ class Patient{
 
 
     /**
+     * @param int $id
+     * @return void
+     */
+    public function setId($id):void{
+        $this->id = $id ;
+    }
+
+    /**
      * @param string $lastname
      * @return void
      */
     public function setLastname($lastname):void {
-        $this->$lastname = $lastname;
+        $this->lastname = $lastname;
     }
 
     /**
@@ -50,7 +59,7 @@ class Patient{
      * @return void
      */
     public function setFirstname($firstname):void {
-        $this->$firstname = $firstname;
+        $this->firstname = $firstname;
     }
 
     /**
@@ -58,15 +67,15 @@ class Patient{
      * @return void
      */
     public function setBirthdate($birthdate):void {
-        $this->$birthdate = $birthdate;
+        $this->birthdate = $birthdate;
     }
 
     /**
-     * @param string $phonenumber
+     * @param string $phone
      * @return void
      */
-    public function setPhonenumber($phonenumber):void {
-        $this->$phonenumber = $phonenumber;
+    public function setPhone($phone):void {
+        $this->phone = $phone;
     }
 
     /**
@@ -74,10 +83,19 @@ class Patient{
      * @return void
      */
     public function setEmail($email):void {
-        $this->$email = $email;
+        $this->email = $email;
     }
 
 //Section GET
+
+
+    /**
+     *
+     * @return int
+     */
+    public function getId():string {
+        return $this->id ;
+    }
 
     /**
      *
@@ -86,6 +104,7 @@ class Patient{
     public function getLastname():string {
         return $this->lastname ;
     }
+    
 
     /**
      *
@@ -107,8 +126,8 @@ class Patient{
      *
      * @return string
      */
-    public function getPhonenumber():string {
-        return $this->phonenumber ;
+    public function getPhone():string {
+        return $this->phone ;
     }
 
     /**
@@ -122,14 +141,14 @@ class Patient{
 
 // Section méthodes
 
-    public function add($sql){
+    public function add($pdo){
 
-    $sth = $sql->prepare('INSERT INTO `patients( `lastname`, `firstname`, `birthdate`, `phonenumber`, `email`)
-                        VALUES (:lastname, :fisrtname, :birthdate, :phonenumber, :email)');
+    $sth = $pdo->prepare('INSERT INTO `patients` ( `lastname`, `firstname`, `birthdate`, `phone`, `mail`)
+                        VALUES (:lastname, :firstname, :birthdate, :phone, :email)');
                         $sth->bindValue(':lastname',$this->getLastname(), PDO::PARAM_STR);
                         $sth->bindValue(':firstname',$this->getFirstname(), PDO::PARAM_STR);
                         $sth->bindValue(':birthdate',$this->getBirthdate(), PDO::PARAM_STR);
-                        $sth->bindValue(':phonenumber',$this->getPhonenumber(), PDO::PARAM_STR);
+                        $sth->bindValue(':phone',$this->getPhone(), PDO::PARAM_STR);
                         $sth->bindValue(':email',$this->getEmail(), PDO::PARAM_STR);
     $sth->execute();
     

@@ -1,5 +1,5 @@
 <?php 
-require_once(dirname(__FILE__).'/../config/db.php');
+
 include(dirname(__FILE__) . '/../config/config.php');
 require_once(dirname(__FILE__).'/../models/Patient.php');
 include(dirname(__FILE__).'/../views/templates/header.php');
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error["lastname"] = "Le nom n'est pas au bon format!!";
         } else {
             
-            if (strlen($lastname) <= 1 || strlen($lastname) >= 70) {
+            if (strlen($lastname) <= 1 || strlen($lastname) >= 25) {
                 $error["lastname"] = "La longueur du nom n'est pas bon";
             }
         }
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error["firstname"] = "Le nom n'est pas au bon format!!";
         } else {
             
-            if (strlen($firstname) <= 1 || strlen($firstname) >= 70) {
+            if (strlen($firstname) <= 1 || strlen($firstname) >= 25) {
                 $error["firstname"] = "La longueur du nom n'est pas bon";
             }
         }
@@ -85,10 +85,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if (!empty($error) || $_SERVER['REQUEST_METHOD'] == 'GET') {
-    include(dirname(__FILE__).'/../views/ajout-patient.php');
+    include(dirname(__FILE__).'/../views/add-patient.php');
+
 } else if (empty($error) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $newPatient = new Patient($lastname, $firstname, $birthdate, $phonenumber, $email);
-    $newPatient->add($sql);
+
+    try {
+        $newPatient = new Patient($lastname, $firstname, $birthdate, $phonenumber, $email);
+        $newPatient->add($pdo);
+    }catch(PDOException $e) {
+    echo $pdo . "<br>" . $e->getMessage();
+    }
     include(dirname(__FILE__).'/../views/formOk.php');
 }
 
