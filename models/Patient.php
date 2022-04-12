@@ -5,7 +5,8 @@ require_once(dirname(__FILE__).'/../config/db.php');
 
 class Patient{
 
-    private string $table;
+
+    private object $pdo;
     private string $id;
     private string $lastname;
     private string $firstname;
@@ -25,12 +26,14 @@ class Patient{
      * 
      *      méthode magique __construct, nécessite les champs à ajouter à la table.
      * */
-    public function __construct(string $lastname, string $firstname, string $birthdate, string $phone, string $email){
+    public function __construct( string $lastname = '', string $firstname = '', string $birthdate = '', string $phone = '', string $email = ''){
         $this->setLastname($lastname);
         $this->setFirstname($firstname);
         $this->setBirthdate($birthdate);
         $this->setPhone($phone);
         $this->setEmail($email);
+        $this->pdo = dbConnect();
+        
     }
 
 
@@ -141,16 +144,47 @@ class Patient{
 
 // Section méthodes
 
-    public function add($pdo){
+    public function add(){
 
-    $sth = $pdo->prepare('INSERT INTO `patients` ( `lastname`, `firstname`, `birthdate`, `phone`, `mail`)
-                        VALUES (:lastname, :firstname, :birthdate, :phone, :email)');
-                        $sth->bindValue(':lastname',$this->getLastname(), PDO::PARAM_STR);
-                        $sth->bindValue(':firstname',$this->getFirstname(), PDO::PARAM_STR);
-                        $sth->bindValue(':birthdate',$this->getBirthdate(), PDO::PARAM_STR);
-                        $sth->bindValue(':phone',$this->getPhone(), PDO::PARAM_STR);
-                        $sth->bindValue(':email',$this->getEmail(), PDO::PARAM_STR);
-    $sth->execute();
+        $sth = $this->pdo->prepare('INSERT INTO `patients` ( `lastname`, `firstname`, `birthdate`, `phone`, `mail`)
+                            VALUES (:lastname, :firstname, :birthdate, :phone, :email)');
+                            $sth->bindValue(':lastname', $this->getLastname(), PDO::PARAM_STR);
+                            $sth->bindValue(':firstname', $this->getFirstname(), PDO::PARAM_STR);
+                            $sth->bindValue(':birthdate', $this->getBirthdate(), PDO::PARAM_STR);
+                            $sth->bindValue(':phone', $this->getPhone(), PDO::PARAM_STR);
+                            $sth->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
+        $verifPdo = $sth->execute();
+        return $verifPdo;
+
+    }
+
+    public function getAll() {
+
+        $sth = $this->pdo->prepare('SELECT `id`,
+        `lastname`,
+        `firstname`,
+        DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
+        `phone`,
+        `mail`
+        FROM `patients`');
+        $sth->execute();
     
+        $requestResult = $sth->fetchAll();        
+        return $requestResult;
+    }
+
+    public function get() {
+
+        $sth = $this->pdo->prepare('SELECT `id`,
+        `lastname`,
+        `firstname`,
+        DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
+        `phone`,
+        `mail`
+        FROM `patients`');
+        $sth->execute();
+    
+        $requestResult = $sth->fetchAll();        
+        return $requestResult;
     }
 }

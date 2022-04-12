@@ -30,7 +30,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="/controllers/add-patient-controller.php">Ajouter un client</a></li>
-                            <li><a class="dropdown-item" href="#">Liste de clients</a></li>
+                            <li><a class="dropdown-item" href="/controllers/list-patient-controller.php">Liste de clients</a></li>
 
                         </ul>
                     </li>

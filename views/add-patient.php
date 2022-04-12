@@ -49,7 +49,7 @@
                             name ="phonenumber"
                             id="phonenumber"
                             value="<?= htmlentities($phonenumber ?? '') ?>"
-                            required>
+                            >
                         </div>
 
                         <div class="offset-0 col-12 mb-4  offset-sm-2 col-sm-8">
@@ -62,6 +62,7 @@
                             value="<?= htmlentities($email ?? '') ?>"
                             required>
                         </div>
+                        <div class="offset-0 col-12 mb-4  offset-sm-2 col-sm-8 c-red"><?=(!$verifPdo)? "L'ajout à la base de donnée n'a pas fonctionné." : ''?> </div>
 
                         <div class=" offset-0 offset-sm-2">
                             <button type="submit" class="btn bg-blue ">Ajouter</button>
