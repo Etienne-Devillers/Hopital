@@ -32,7 +32,7 @@ class Patient{
         $this->setBirthdate($birthdate);
         $this->setPhone($phone);
         $this->setEmail($email);
-        $this->pdo = dbConnect();
+        $this->pdo = Database::dbConnect();
         
     }
 
@@ -146,15 +146,22 @@ class Patient{
 
     public function add(){
 
-        $sth = $this->pdo->prepare('INSERT INTO `patients` ( `lastname`, `firstname`, `birthdate`, `phone`, `mail`)
-                            VALUES (:lastname, :firstname, :birthdate, :phone, :email)');
+        try {
+            $sth = $this->pdo->prepare('INSERT INTO `patients` ( `lastname`, `firstname`, `birthdate`, `phone`, `mail`)
+                                        VALUES (:lastname, :firstname, :birthdate, :phone, :email)');
                             $sth->bindValue(':lastname', $this->getLastname(), PDO::PARAM_STR);
                             $sth->bindValue(':firstname', $this->getFirstname(), PDO::PARAM_STR);
                             $sth->bindValue(':birthdate', $this->getBirthdate(), PDO::PARAM_STR);
                             $sth->bindValue(':phone', $this->getPhone(), PDO::PARAM_STR);
                             $sth->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
-        $verifPdo = $sth->execute();
-        return $verifPdo;
+            $verifPdo = $sth->execute();
+            return $verifPdo;
+        } catch(PDOException $exception)
+        {
+            $verifPdo = false;
+            return $verifPdo;
+        }
+        
 
     }
 
@@ -173,18 +180,47 @@ class Patient{
         return $requestResult;
     }
 
-    public function get() {
+    public static function getFromId($id) {
 
-        $sth = $this->pdo->prepare('SELECT `id`,
+        try {
+        $sth = Database::dbConnect()->prepare('SELECT `id`,
         `lastname`,
         `firstname`,
         DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
         `phone`,
         `mail`
-        FROM `patients`');
+        FROM `patients`
+        WHERE `id` = :id ');
+        $sth->bindValue(':id', $id, PDO::PARAM_INT);
         $sth->execute();
     
         $requestResult = $sth->fetchAll();        
         return $requestResult;
+
+        } catch(PDOException $exception) {
+            $verifPdo = false;
+            return $verifPdo;
+        }
+    }
+
+    public static function isMailExist(string $email):bool {
+
+        try {
+
+            $sth = Database::dbConnect()->prepare(' SELECT 
+                                                    `mail`
+                                                    FROM `patients`
+                                                    WHERE `mail` = :mail ');
+
+            $sth->bindValue(':mail', $email, PDO::PARAM_STR);
+            $sth->execute();
+        
+            return (empty($sth->fetchAll())) ? false : true ;
+            
+
+        } catch(PDOException $exception) {
+            $verifPdo = false;
+            return $verifPdo;
+        }
     }
 }

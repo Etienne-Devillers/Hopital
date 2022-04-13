@@ -24,6 +24,9 @@ background-color: rgb(0, 157, 255);
 .c-red{
 color: red;
 }
+.error {
+    color: red;
+}
 
 .eye{
     width: 15px;
@@ -49,4 +52,20 @@ form .btn{
 
 .errorField{
     border: 1px solid red;
+}
+
+.userImg{
+    width: 100px;
+}
+
+.rounded-5 {
+    border-radius: 15px;
+}
+
+.svgUser{
+    width: 25px;
+}
+
+.nameUserForm {
+    width: 200px;
 }

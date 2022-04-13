@@ -20,6 +20,7 @@
                             pattern="<?= REGEX_NO_NUMBER ?>"
                             value="<?= htmlentities($lastname ?? '') ?>"
                             required>
+                            <small id="lastnameHelp" class="form-text error"><?= $error['lastname'] ?? '' ?></small>
                         </div>
                         <div class="offset-0 col-12 mb-3 col-sm-4">
                             <label for="firstname" class="form-label">Prénom</label>
@@ -31,6 +32,7 @@
                             pattern="<?= REGEX_NO_NUMBER ?>"
                             value="<?= htmlentities($firstname ?? '') ?>"
                             required>
+                            <small id="firstnameHelp" class="form-text error"><?= $error['firstname'] ?? '' ?></small>
                         </div>
                         <div class="offset-0 col-12 mb-3 offset-sm-2 col-sm-4">
                             <label for="birthdate" class="form-label">Date de naissance</label>
@@ -40,6 +42,7 @@
                             id="birthdate"
                             value="<?= htmlentities($birthdate ?? '') ?>"
                             required>
+                            <small id="birthdateHelp" class="form-text error"><?= $error['birthdate'] ?? '' ?></small>
                         </div>
                         <div class="offset-0 col-12 mb-3 col-sm-4">
                             <label for="phonenumber"
@@ -50,6 +53,7 @@
                             id="phonenumber"
                             value="<?= htmlentities($phonenumber ?? '') ?>"
                             >
+                            <small id="phoneHelp" class="form-text error"><?= $error['phonenumber'] ?? '' ?></small>
                         </div>
 
                         <div class="offset-0 col-12 mb-4  offset-sm-2 col-sm-8">
@@ -61,8 +65,9 @@
                             aria-describedby="emailHelp"
                             value="<?= htmlentities($email ?? '') ?>"
                             required>
+                            <small id="emailHelp" class="form-text error"><?= $error['email'] ?? '' ?></small>
                         </div>
-                        <div class="offset-0 col-12 mb-4  offset-sm-2 col-sm-8 c-red"><?=(!$verifPdo)? "L'ajout à la base de donnée n'a pas fonctionné." : ''?> </div>
+                        <div class="offset-0 col-12 mb-4  offset-sm-2 col-sm-8 c-red"><?=(!$verifPdo)? $pdoError : ''?> </div>
 
                         <div class=" offset-0 offset-sm-2">
                             <button type="submit" class="btn bg-blue ">Ajouter</button>

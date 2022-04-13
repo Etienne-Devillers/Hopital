@@ -1,6 +1,6 @@
 <?php 
 
-require_once(dirname(__FILE__) . '/../config/config.php');
+
 require_once(dirname(__FILE__).'/../models/Patient.php');
 
 $verifPdo = true;
@@ -14,6 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $testEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
         if ($testEmail === false) {
             $error["email"] = "L'adresse email n'est pas au bon format!!";
+        }
+        if(Patient::isMailExist($email)){
+            $error["email"] = "Ce mail existe déjà";
         }
     } else {
         $error["email"] = "L'adresse mail est obligatoire!!";
@@ -86,10 +89,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 include(dirname(__FILE__).'/../views/templates/header.php');
 
 if (!empty($error) || $_SERVER['REQUEST_METHOD'] == 'GET') {
-    include(dirname(__FILE__).'/../views/add-patient.php');
+    include(dirname(__FILE__).'/../views/patients/add-patient.php');
 
 } else if (empty($error) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    
     try {
         $newPatient = new Patient($lastname, $firstname, $birthdate, $phonenumber, $email);
         $verifPdo = $newPatient->add();
@@ -98,9 +102,9 @@ if (!empty($error) || $_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     if ($verifPdo === true) {
-        include(dirname(__FILE__).'/../views/patientOk.php'); 
+        include(dirname(__FILE__).'/../views/patients/patientOk.php'); 
     } else {
-        include(dirname(__FILE__).'/../views/add-patient.php');
+        include(dirname(__FILE__).'/../views/patients/add-patient.php');
     }
 }
 
