@@ -1,0 +1,28 @@
+
+# links follow
+Options +FollowSymlinks
+# # rewrite Apache activate
+RewriteEngine On
+
+# # /accueil
+# RewriteRule ^accueil$ /controllers/home-controller.php [L]
+
+# # /inscription
+RewriteRule ^new-patients$ /controllers/add-patient-controller.php [L]
+
+# # /Liste de patients
+RewriteRule ^patients$ /controllers/list-patient-controller.php [L]
+
+# # /patients
+# RewriteRule ^patients$ /controllers/patients-controller.php [L]
+
+# # /erreur
+# RewriteRule ^erreur$ /controllers/error-controller.php [L]
+
+# # /profil?id=N
+# RewriteCond %{QUERY_STRING} (?:^|&)id=(\d+)
+# RewriteRule ^profil$ /controllers/profil-patient-controller.php [L]
+
+# # /erreur?code=N
+# RewriteCond %{QUERY_STRING} (?:^|&)code=(\d+)
+# RewriteRule ^erreur$ /controllers/error-controller.php [L]

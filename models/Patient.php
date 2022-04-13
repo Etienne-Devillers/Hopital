@@ -26,7 +26,7 @@ class Patient{
      * 
      *      méthode magique __construct, nécessite les champs à ajouter à la table.
      * */
-    public function __construct( string $lastname = '', string $firstname = '', string $birthdate = '', string $phone = '', string $email = ''){
+    public function __construct(string $lastname = '', string $firstname = '', string $birthdate = '', string $phone = '', string $email = ''){
         $this->setLastname($lastname);
         $this->setFirstname($firstname);
         $this->setBirthdate($birthdate);
@@ -154,6 +154,36 @@ class Patient{
                             $sth->bindValue(':birthdate', $this->getBirthdate(), PDO::PARAM_STR);
                             $sth->bindValue(':phone', $this->getPhone(), PDO::PARAM_STR);
                             $sth->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
+            $verifPdo = $sth->execute();
+            return $verifPdo;
+        } catch(PDOException $exception)
+        {
+            $verifPdo = false;
+            return $verifPdo;
+        }
+        
+
+    }
+
+    public function update(){
+
+        try {
+            $sth = $this->pdo->prepare('UPDATE `patients`
+                                        SET `id` = :id,
+                                            `firstname` = :firstname,
+                                            `lastname` = :lastname,
+                                            `birthdate` = :birthdate,
+                                            `phone` = :phone,
+                                            `mail` = :mail
+                                        WHERE `id` = :id
+                                        ');
+                            
+                            $sth->bindValue(':id', $this->getId(), PDO::PARAM_INT);
+                            $sth->bindValue(':lastname', $this->getLastname(), PDO::PARAM_STR);
+                            $sth->bindValue(':firstname', $this->getFirstname(), PDO::PARAM_STR);
+                            $sth->bindValue(':birthdate', $this->getBirthdate(), PDO::PARAM_STR);
+                            $sth->bindValue(':phone', $this->getPhone(), PDO::PARAM_STR);
+                            $sth->bindValue(':mail', $this->getEmail(), PDO::PARAM_STR);
             $verifPdo = $sth->execute();
             return $verifPdo;
         } catch(PDOException $exception)

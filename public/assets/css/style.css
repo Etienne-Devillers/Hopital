@@ -21,6 +21,10 @@ main{
 background-color: rgb(0, 157, 255);
 }
 
+.bg-green {
+    background-color: rgb(27 175 5 / 98%);
+}
+
 .c-red{
 color: red;
 }
@@ -64,8 +68,61 @@ form .btn{
 
 .svgUser{
     width: 25px;
+    
 }
 
 .nameUserForm {
     width: 200px;
+}
+.userFormChange {
+    
+    position: relative;
+}
+
+.phone::before{
+    content: url(/public/assets/img/phone-solid.svg);
+    width: 24px;
+    position: absolute;
+    top: 55%;
+    left: -20%;
+}
+
+.birth::before{
+    content: url(/public/assets/img/cake-candles-solid.svg);
+    width: 24px;
+    position: absolute;
+    top: 55%;
+    left: -20%;
+}
+
+.email::before{
+    content: url(/public/assets/img/envelope-solid.svg);
+    width: 24px;
+    position: absolute;
+    top: 55%;
+    left: -20%;
+}
+
+.phoneProfile, .birthProfile, .emailProfile, .profileInfo {
+    position: relative;
+    color: black;
+}
+
+.phoneProfile::before{
+    content: url(/public/assets/img/phone-solid.svg);
+    width: 30px;
+    position: absolute;
+    left: -35px;
+}
+.birthProfile::before{
+    content: url(/public/assets/img/cake-candles-solid.svg);
+    width: 30px;
+    position: absolute;
+    left: -35px;
+}
+.emailProfile::before{
+    content: url(/public/assets/img/envelope-solid.svg);
+    width: 30px;
+    position: absolute;
+    left: -40px;
 }

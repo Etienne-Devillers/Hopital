@@ -9,8 +9,8 @@
                 <div class="row">
                     <div class="col d-flex flex-column align-items-center">
                         <div><img src="/public/assets/img/user.png" alt="" class="userImg"></div>
-                        <div class="display-2"><?=$requestResult[0]->lastname?></div>
-                        <div  class="display-2"><?=$requestResult[0]->firstname?></div>
+                        <div class="display-2 profileInfo"><?=$requestResult[0]->lastname?></div>
+                        <div  class="display-2 profileInfo"><?=$requestResult[0]->firstname?></div>
                     </div>
                 </div>
             </div>
@@ -19,16 +19,13 @@
                 <div class="row">
                     <div class="col d-flex flex-column align-items-center ">
                         <div class="d-flex">
-                        <img src="/public/assets/img/phone-solid.svg" alt="" class="svgUser mx-5">
-                            <div class="display-5"><?=$requestResult[0]->phone?></div>
+                            <div class="display-5 phoneProfile "><a href="tel:<?=$requestResult[0]->phone?>"><?=$requestResult[0]->phone?></a></div>
                         </div>
                         <div  class="d-flex mt-4">
-                            <img src="/public/assets/img/envelope-solid.svg" alt="" class="svgUser mx-5">
-                            <div class="display-5"><?=$requestResult[0]->mail?></div>
+                            <div class="display-5 birthProfile "><?=$requestResult[0]->birthdate?></div>
                         </div>
                         <div  class="d-flex mt-4">
-                            <img src="/public/assets/img/cake-candles-solid.svg" alt="" class="svgUser mx-5">
-                            <div class="display-5"><?=$requestResult[0]->birthdate?></div>
+                            <div class="display-5 emailProfile "><a href="mailto:<?=$requestResult[0]->mail?>"><?=$requestResult[0]->mail?></a></div>
                         </div>
                     </div>
                 </div>

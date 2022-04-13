@@ -17,7 +17,7 @@ class Database {
                 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ); 
             }
             catch(PDOException $e){
-                $pdoError =  'erreur de connexion à la BDD : '. $e->getMessage();
+                header('location: /controllers/error-controller.php?id=1');
             }
             return $pdo;
     }

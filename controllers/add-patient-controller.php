@@ -1,10 +1,10 @@
 <?php 
 
-
+require_once(dirname(__FILE__).'/../config/config.php');
 require_once(dirname(__FILE__).'/../models/Patient.php');
 
 $verifPdo = true;
-
+$id =0;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 //===================== email : Nettoyage et validation =======================
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error["lastname"] = "Vous devez entrer un nom!!";
     }
 //===================== birthdate : Nettoyage et validation =======================
-    $birthdate = filter_input(INPUT_POST, 'birthdate', FILTER_SANITIZE_NUMBER_INT);
+    $birthdate = trim(filter_input(INPUT_POST, 'birthdate', FILTER_SANITIZE_NUMBER_INT));
 
     if (!empty($birthdate)) {
         $birthdateObj = DateTime::createFromFormat('Y-m-d', $birthdate);
@@ -83,26 +83,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error["phonenumber"] = "Le numéro de téléphone n'est pas au bon format!!";
         }
     } 
+
+//===================== id : Nettoyage et validation =======================
+    $id = trim(filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT));
+    if (!empty($id)) {
+        $testid = filter_var($id, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => '/' . REGEX_NUMBER . '/')));
+        if ($testid === false) {
+            $error["id"] = "l'id n'existe pas";
+        }
+    } 
 }
+
 
 
 include(dirname(__FILE__).'/../views/templates/header.php');
 
+
+if ($id != 0){
+    $newPatient = new Patient($lastname, $firstname, $birthdate, $phonenumber, $email);
+    var_dump($newPatient);
+    $newPatient->setId($id);
+    $verifPdo = $newPatient->update();
+    header('location: ./profil-patient-controller.php?id='.$id.'');
+}
+
 if (!empty($error) || $_SERVER['REQUEST_METHOD'] == 'GET') {
+
     include(dirname(__FILE__).'/../views/patients/add-patient.php');
 
 } else if (empty($error) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
     
     try {
-        $newPatient = new Patient($lastname, $firstname, $birthdate, $phonenumber, $email);
-        $verifPdo = $newPatient->add();
+            
+            $newPatient = new Patient($lastname, $firstname, $birthdate, $phonenumber, $email);
+            $verifPdo = $newPatient->add();
+    
+        
     }catch(PDOException $e) {
     echo $pdo . "<br>" . $e->getMessage();
     }
 
     if ($verifPdo === true) {
-        include(dirname(__FILE__).'/../views/patients/patientOk.php'); 
+        header('location: /patients') ;
     } else {
         include(dirname(__FILE__).'/../views/patients/add-patient.php');
     }

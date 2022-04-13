@@ -23,8 +23,8 @@
                             <td> <?=$value->lastname?> </td>
                             <td> <?=$value->firstname?> </td>
                             <td> <?=$value->birthdate?> </td>
-                            <td> <?=$value->phone?> </td>
-                            <td> <?=$value->mail?> </td>
+                            <td> <a href="tel:<?=$value->phone?>"><?=$value->phone?> </a></td>
+                            <td> <a href="mailto:<?=$value->mail?>"><?=$value->mail?></a> </td>
                             <td> <a href="/controllers/profil-patient-controller.php?id=<?=$value->id?>"><img src="/public/assets/img/eye-solid.svg" alt="" class="eye"></a> </td>
                         </tr>
                     <?php
