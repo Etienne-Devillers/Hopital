@@ -1,5 +1,5 @@
 <section class="userProfile">
-<form action="/controllers/add-patient-controller.php" method="POST">
+<form action="/controllers/patients/add-patient-controller.php" method="POST">
     <div class="container">
         <div class="row">
             <div class="col">

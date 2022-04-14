@@ -29,7 +29,7 @@
                             Clients
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/new-patients">Ajouter un client</a></li>
+                            <li><a class="dropdown-item" href="/new-patient">Ajouter un client</a></li>
                             <li><a class="dropdown-item" href="/patients">Liste de clients</a></li>
 
                         </ul>
@@ -40,7 +40,7 @@
                             Rendez-vous
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Ajouter un rendez-vous</a></li>
+                            <li><a class="dropdown-item" href="/new-appointment">Ajouter un rendez-vous</a></li>
                             <li><a class="dropdown-item" href="#">Liste des rendez-vous</a></li>
                         </ul>
                     </li>

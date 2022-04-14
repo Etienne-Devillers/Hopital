@@ -1,7 +1,7 @@
 <?php 
 
-require_once(dirname(__FILE__).'/../config/config.php');
-require_once(dirname(__FILE__).'/../models/Patient.php');
+require_once(dirname(__FILE__).'/../../config/config.php');
+require_once(dirname(__FILE__).'/../../models/Patient.php');
 
 $verifPdo = true;
 $id =0;
@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-include(dirname(__FILE__).'/../views/templates/header.php');
+include(dirname(__FILE__).'/../../views/templates/header.php');
 
 
 if ($id != 0){
@@ -109,7 +109,7 @@ if ($id != 0){
 
 if (!empty($error) || $_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    include(dirname(__FILE__).'/../views/patients/add-patient.php');
+    include(dirname(__FILE__).'/../../views/patients/add-patient.php');
 
 } else if (empty($error) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -127,11 +127,11 @@ if (!empty($error) || $_SERVER['REQUEST_METHOD'] == 'GET') {
     if ($verifPdo === true) {
         header('location: /patients') ;
     } else {
-        include(dirname(__FILE__).'/../views/patients/add-patient.php');
+        include(dirname(__FILE__).'/../../views/patients/add-patient.php');
     }
 }
 
 
 
-include(dirname(__FILE__).'/../views/templates/footer.php');
+include(dirname(__FILE__).'/../../views/templates/footer.php');
 

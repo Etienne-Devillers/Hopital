@@ -5,16 +5,16 @@ Options +FollowSymlinks
 RewriteEngine On
 
 # # /accueil
-# RewriteRule ^accueil$ /controllers/home-controller.php [L]
+RewriteRule ^accueil$ /controllers/home-controller.php [L]
 
 # # /inscription
-RewriteRule ^new-patients$ /controllers/add-patient-controller.php [L]
+RewriteRule ^new-patient$ /controllers/patients/add-patient-controller.php [L]
 
 # # /Liste de patients
-RewriteRule ^patients$ /controllers/list-patient-controller.php [L]
+RewriteRule ^patients$ /controllers/patients/list-patient-controller.php [L]
 
-# # /patients
-# RewriteRule ^patients$ /controllers/patients-controller.php [L]
+# # /nouveau rdv
+RewriteRule ^new-appointment$ /controllers/appointments/add-appointment-controller.php [L]
 
 # # /erreur
 # RewriteRule ^erreur$ /controllers/error-controller.php [L]

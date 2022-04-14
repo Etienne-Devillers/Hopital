@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <a href="/controllers/profil-patient-controller.php?id=<?=$requestResult[0]->id?>&modify=1">
+            <a href="/controllers/patients/profil-patient-controller.php?id=<?=$requestResult[0]->id?>&modify=1">
                 <button class="btn bg-blue mt-4">
                     <img src="/public/assets/img/pencil-solid.svg" alt="" class="svgUser mx-1">
                     Modifier

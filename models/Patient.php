@@ -195,19 +195,30 @@ class Patient{
 
     }
 
-    public function getAll() {
+    public static function getAll():array {
 
-        $sth = $this->pdo->prepare('SELECT `id`,
-        `lastname`,
-        `firstname`,
-        DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
-        `phone`,
-        `mail`
-        FROM `patients`');
-        $sth->execute();
-    
-        $requestResult = $sth->fetchAll();        
-        return $requestResult;
+        $request = 'SELECT `id`,
+                    `lastname`,
+                    `firstname`,
+                    DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
+                    `phone`,
+                    `mail`
+                    FROM `patients`';
+        
+        try {
+            $sth = Database::dbConnect()->query($request);
+            
+            if (!$sth) {
+                throw new PDOException();
+            }    
+
+            $requestResult = $sth->fetchAll();        
+            return $requestResult;
+
+        } catch(PDOException $e) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return [];
+        }
     }
 
     public static function getFromId($id) {
@@ -252,5 +263,55 @@ class Patient{
             $verifPdo = false;
             return $verifPdo;
         }
+    }
+
+    public static function getIdFromMail($email) {
+        
+        try {
+
+            $sth = Database::dbConnect()->prepare(' SELECT 
+                                                    `id`
+                                                    FROM `patients`
+                                                    WHERE `mail` = :mail ');
+
+            $sth->bindValue(':mail', $email, PDO::PARAM_STR);
+            $sth->execute();
+        
+            if (!$sth) {
+                throw new PDOException();
+            }
+
+            $result = $sth->fetchAll();
+            return $result;
+            
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return [];
+        }
+        
+    }
+
+    public static function getMailList() {
+        
+        try {
+
+            $sth = Database::dbConnect()->query(' SELECT 
+                                                    `mail`
+                                                    FROM `patients`
+                                                    ');
+            if (!$sth) {
+                throw new PDOException();
+            }
+
+            $result = $sth->fetchAll();
+            return $result;
+            
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return [];
+        }
+        
     }
 }
