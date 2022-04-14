@@ -41,7 +41,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="/new-appointment">Ajouter un rendez-vous</a></li>
-                            <li><a class="dropdown-item" href="#">Liste des rendez-vous</a></li>
+                            <li><a class="dropdown-item" href="/list-appointments">Liste des rendez-vous</a></li>
                         </ul>
                     </li>
                 </ul>

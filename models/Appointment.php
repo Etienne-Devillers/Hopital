@@ -6,7 +6,7 @@ class Appointment {
 
     private object $pdo;
     private string $dateHour;
-    private  $idPatient;
+    private int $idPatient;
 
 
     public function __construct($dateHour, $email){
@@ -72,7 +72,7 @@ class Appointment {
     public function add(){
 
         try {
-            $sth = $this->pdo->prepare('INSERT INTO `appointments` ( `datehour`, `idpateint`)
+            $sth = $this->pdo->prepare('INSERT INTO `appointments` ( `dateHour`, `idPatients`)
                                         VALUES (:datehour, :idpatient)');
                             $sth->bindValue(':datehour', $this->getDateHour(), PDO::PARAM_STR);
                             $sth->bindValue(':idpatient', $this->getIdPatient(), PDO::PARAM_INT);
@@ -86,4 +86,30 @@ class Appointment {
         }
         
     }
+
+    public static function getAppointmentList() {
+        
+        try {
+
+            $sth = Database::dbConnect()->query(' SELECT 
+                                                    `dateHour`, `lastname`, `firstname`, `phone`, `mail`
+                                                    FROM `appointments`, `patients`
+                                                    WHERE `patients`.`id` = `appointments`.`idPatients`
+                                                    ORDER BY `dateHour`
+                                                    ');
+            if (!$sth) {
+                throw new PDOException();
+            }
+
+            $result = $sth->fetchAll();
+            return $result;
+            
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return [];
+        }
+        
+    }
+
 }
