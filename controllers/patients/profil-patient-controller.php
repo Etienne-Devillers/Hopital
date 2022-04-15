@@ -6,6 +6,11 @@ if(!empty($_GET['id'])) {
     $id = intval(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
 
     $requestResult = Patient::getFromId($id);
+
+    if ($requestResult instanceof PDOException) {
+    $patientError = $requestResult->getMessage() ;
+    }
+
 }
 if (!isset($_GET['modify'])) {
 

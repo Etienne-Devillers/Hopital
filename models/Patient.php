@@ -221,26 +221,33 @@ class Patient{
         }
     }
 
-    public static function getFromId($id) {
+    public static function getFromId(int $id):object {
 
         try {
-        $sth = Database::dbConnect()->prepare('SELECT `id`,
-        `lastname`,
-        `firstname`,
-        DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
-        `phone`,
-        `mail`
-        FROM `patients`
-        WHERE `id` = :id ');
-        $sth->bindValue(':id', $id, PDO::PARAM_INT);
-        $sth->execute();
-    
-        $requestResult = $sth->fetchAll();        
-        return $requestResult;
+            $sth = Database::dbConnect()->prepare('SELECT `id`,
+            `lastname`,
+            `firstname`,
+            DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
+            `phone`,
+            `mail`
+            FROM `patients`
+            WHERE `id` = :id ;');
+            $sth->bindValue(':id', $id, PDO::PARAM_INT);
+            $verif = $sth->execute();
+                
+            if (!$verif) {
+                throw new PDOException();
+            } else {
+                $requestResult = $sth->fetch();
+                if (!$requestResult) {
+                    throw new PDOException();
+                }
+            }
 
-        } catch(PDOException $exception) {
-            $verifPdo = false;
-            return $verifPdo;
+            return $requestResult;
+
+        } catch(PDOException $e) {
+            return $e;
         }
     }
 

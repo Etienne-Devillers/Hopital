@@ -6,9 +6,9 @@ require_once(dirname(__FILE__).'/../../models/Patient.php');
 
 
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    
     //===================== email : Nettoyage et validation =======================
     $email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
 
@@ -44,22 +44,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error["hour"] = "La date entrée n'est pas valide!";
         }
     }
-
+    
      //===================== Minutes : Nettoyage et validation =======================
-    $minutes = trim(filter_input(INPUT_POST, 'minutes', FILTER_SANITIZE_NUMBER_INT));
-    if (!empty($minutes)) {
-        
-        if( ($minutes%15 == 0)  && $minutes<=45){
-            $hour = $hour.':'.$minutes;
+    $minutes = intval(filter_input(INPUT_POST, 'minutes', FILTER_SANITIZE_NUMBER_INT));
+
+    if (!empty($minutes) || $minutes == 0) {
+        if( (($minutes%15 == 0)  && ($minutes<=45))){
+
+            $hour = ($minutes == 0) ? $hour = $hour.':00': $hour = $hour.':'.$minutes;
             $dateHour = $date.'T'.$hour;
 
         } else {
             $error["minutes"] = "La date entrée n'est pas valide!";
         }
     }
-
-    //===================== appointment : Nettoyage et validation =======================
-    $dateHour = trim(filter_var( $dateHour, FILTER_SANITIZE_SPECIAL_CHARS));
+    //===================== datehour : Nettoyage et validation =======================
+    $dateHour = trim(filter_var($dateHour, FILTER_SANITIZE_SPECIAL_CHARS));
     if (!empty($dateHour)) {
         $dateHourObj = DateTime::createFromFormat('Y-m-d\TH:i', $dateHour);
         $currentDateObj = new DateTime();
@@ -72,12 +72,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
+    //===================== id : Nettoyage et validation =======================
+    $id = intval(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
 
-    
-    if (empty($error)){
+
+    if (!empty($id) && empty($error)) {
 
         $appointment = new Appointment($dateHour, $email);
-        $appointment->add();
+        $appointment->update($id);
+        header('location: /detail-appointment?id='.$id);
+
+    } else if (empty($error)){
+
+        $appointment = new Appointment($dateHour, $email);
+        
+        $appointment->add() ;
 
         header('location: /list-appointments');
     }

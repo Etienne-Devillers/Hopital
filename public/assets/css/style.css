@@ -53,6 +53,12 @@ form .btn{
     width: 200px;
 }
 
+.btn:hover {
+    background-color: rgb(109, 199, 255);
+}
+
+
+
 
 .errorField{
     border: 1px solid red;
@@ -130,6 +136,10 @@ form .btn{
 .hourForm {
     width: 45px;
     
+}
+
+.hourForm2{
+    height: 60px;
 }
 .separator{
     color: white;

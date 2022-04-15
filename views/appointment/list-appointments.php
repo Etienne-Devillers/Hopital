@@ -21,7 +21,7 @@
                         $appointmentDate = DateTime::createFromFormat('Y-m-d H:i:s', $value->dateHour, new DateTimeZone('Europe/Paris'));
 
                         $diff = $appointmentDate->diff($currentDate);
-                        // var_dump($diff);
+                        
                         ?>
                         <tr class="<?= ($diff->invert == 0) ? 'bg-grey' :'' ?>">
                             <th scope="row"> <?=date("d-m-Y \à H:i", strtotime($value->dateHour))?> </th>
@@ -29,14 +29,14 @@
                             <td> <?=$value->firstname?> </td>
                             <td> <a href="tel:<?=$value->phone?>"><?=$value->phone?> </a></td>
                             <td> <a href="mailto:<?=$value->mail?>"><?=$value->mail?></a> </td>
-                            <td> <a href="/controllers/patients/profil-patient-controller.php?id=<?=$value->id?>"><img src="/public/assets/img/eye-solid.svg" alt="" class="eye"></a> </td>
+                            <td> <a href="/detail-appointment?id=<?=$value->id?>"><img src="/public/assets/img/eye-solid.svg" alt="" class="eye eye<?=$value->id?>"></a> </td>
                         </tr>
                     <?php
                     } 
                 ?>
                 </tbody>
             </table>
-            <div>Vous voulez ajouter un nouveau rendez vous ? <a href="/new-patient.php"><button class="btn bg-blue"> Cliquez ici</a></button>  </div>
+            <div>Vous voulez ajouter un nouveau rendez vous ? <a href="/new-appointment"><button class="btn bg-blue"> Cliquez ici</a></button>  </div>
         </div>
     </div>
 

@@ -7,6 +7,7 @@ class Appointment {
     private object $pdo;
     private string $dateHour;
     private int $idPatient;
+    private int $id;
 
 
     public function __construct($dateHour, $email){
@@ -40,6 +41,14 @@ class Appointment {
      * @param string $lastname
      * @return void
      */
+    public function setId( int $id):void {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $lastname
+     * @return void
+     */
     public  function setIdPatientFromMail( $email):void {
         $idRequest = Patient::getIdFromMail($email);
         $this->idPatient = $idRequest[0]->id;
@@ -66,23 +75,62 @@ class Appointment {
     public function getIdPatient():int {
         return $this->idPatient ;
     }
+
+    /**
+     * @param string $lastname
+     * @return void
+     */
+    public function getId():int {
+        return $this->id ;
+    }
     
 //Section Méthodes
 
     public function add(){
 
         try {
+
             $sth = $this->pdo->prepare('INSERT INTO `appointments` ( `dateHour`, `idPatients`)
                                         VALUES (:datehour, :idpatient)');
                             $sth->bindValue(':datehour', $this->getDateHour(), PDO::PARAM_STR);
                             $sth->bindValue(':idpatient', $this->getIdPatient(), PDO::PARAM_INT);
 
-            $verifPdo = $sth->execute();
-            return $verifPdo;
-        } catch(PDOException $exception)
+            $sth->execute();
+            
+        } catch(PDOException $e)
         {
-            $verifPdo = false;
-            return $verifPdo;
+            
+        }
+        
+    }
+
+    public function update($id){
+
+        try {
+
+            $sth = Database::dbconnect() -> prepare
+            ("UPDATE appointments 
+            SET 
+            dateHour = :dateHour,
+            idPatients = :idPatients
+            WHERE id = :id
+            ");
+            $request ='UPDATE `appointments` 
+            SET 
+            `dateHour` = :dateHour,
+            `idPatients` = :idPatients
+            WHERE `id` = :id;'; 
+
+            $sth = $this->pdo->prepare($request);
+                            $sth->bindValue(':dateHour', $this->getDateHour(), PDO::PARAM_STR);
+                            $sth->bindValue(':idPatients', $this->getIdPatient(), PDO::PARAM_INT);
+                            $sth->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $sth->execute();
+            
+        } catch(PDOException $e)
+        {
+            
         }
         
     }
@@ -92,11 +140,11 @@ class Appointment {
         try {
 
             $sth = Database::dbConnect()->query(' SELECT 
-                                                    `dateHour`, `lastname`, `firstname`, `phone`, `mail`
+                                                    `dateHour`, `lastname`, `firstname`, `phone`, `mail`, `appointments`.`id`
                                                     FROM `appointments`, `patients`
                                                     WHERE `patients`.`id` = `appointments`.`idPatients`
                                                     ORDER BY `dateHour`
-                                                    ');
+                                                    ;');
             if (!$sth) {
                 throw new PDOException();
             }
@@ -110,6 +158,36 @@ class Appointment {
             return [];
         }
         
+    }
+
+    public static function getFromId(int $id):object {
+
+        $request =  'SELECT 
+                    `dateHour`, `lastname`, `firstname`, `phone`, `mail`,`appointments`.`id`
+                    FROM `appointments`, `patients`
+                    WHERE `patients`.`id` = `appointments`.`idPatients`
+                    AND `appointments`.`id` = :id
+                    ;';
+
+        try {
+            $sth = Database::dbConnect()->prepare($request);
+            $sth->bindValue(':id', $id, PDO::PARAM_INT);
+            $verif = $sth->execute();
+                
+            if (!$verif) {
+                throw new PDOException();
+            } else {
+                $requestResult = $sth->fetch();
+                if (!$requestResult) {
+                    throw new PDOException();
+                }
+            }
+
+            return $requestResult;
+
+        } catch(PDOException $e) {
+            return $e;
+        }
     }
 
 }

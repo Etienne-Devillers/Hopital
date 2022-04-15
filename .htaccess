@@ -19,6 +19,9 @@ RewriteRule ^new-appointment$ /controllers/appointments/add-appointment-controll
 # # /list rdv
  RewriteRule ^list-appointments$ /controllers/appointments/list-appointments-controller.php [L]
 
+# # /detail rdv
+ RewriteRule ^detail-appointment$ /controllers/appointments/detail-appointment-controller.php [L]
+
 # # /profil?id=N
 # RewriteCond %{QUERY_STRING} (?:^|&)id=(\d+)
 # RewriteRule ^profil$ /controllers/profil-patient-controller.php [L]

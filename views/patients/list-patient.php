@@ -33,7 +33,7 @@
                 ?>
                 </tbody>
             </table>
-            <div>Vous voulez ajouter un nouveau patient ? <a href="/new-patient.php"><button class="btn bg-blue"> Cliquez ici</a></button>  </div>
+            <div>Vous voulez ajouter un nouveau patient ? <a href="/new-patient.php"><button class="btn bg-blue"> Cliquez ici</button></a>  </div>
         </div>
     </div>
 
