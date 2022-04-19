@@ -1,7 +1,6 @@
 <?php
 
 
-
 if (isset($patientError)) {
     echo "<h1>$patientError</h1>";
 }else 
@@ -42,6 +41,24 @@ if (isset($patientError)) {
                             Modifier
                         </button>
                     </a>
+
+                    <div class="headerProfile container my-3 p-3 bg-blue rounded-5">
+                        <div class="row">
+                            <div class="col d-flex flex-column align-items-center">
+                                <div class="display-2 mb-3">Liste des rendez vous :</div>
+                                <?php 
+                                foreach ($requestResultAppointment as $key => $value) {
+                                ?>
+                                    <div class="display-5 profileInfo"> <a href="/detail-appointment?id=<?=$value->id?>">   Le <?=date("d-m-Y", strtotime($value->dateHour)) ?>
+                                        à <?=date("H:i", strtotime($value->dateHour))?></a></div>
+
+                                <?php
+                                }
+                                ?>
+                                <div class="display-2 profileInfo"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

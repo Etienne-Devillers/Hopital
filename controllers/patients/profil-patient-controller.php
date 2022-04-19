@@ -10,7 +10,7 @@ if(!empty($_GET['id'])) {
     if ($requestResult instanceof PDOException) {
     $patientError = $requestResult->getMessage() ;
     }
-
+    $requestResultAppointment = Patient::getAppointment($id);
 }
 if (!isset($_GET['modify'])) {
 

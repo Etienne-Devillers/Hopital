@@ -7,6 +7,7 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    color: black;
 }
 a{
     text-decoration: none;
@@ -55,6 +56,10 @@ form .btn{
 
 .btn:hover {
     background-color: rgb(109, 199, 255);
+}
+
+#btnRed:hover {
+    background-color: red;
 }
 
 

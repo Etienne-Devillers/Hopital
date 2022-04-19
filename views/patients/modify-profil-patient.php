@@ -1,3 +1,4 @@
+
 <section class="userProfile">
 <form action="/controllers/patients/add-patient-controller.php" method="POST">
     <div class="container">
@@ -6,7 +7,7 @@
                 <div class="headerProfile container mt-5 p-3 bg-blue rounded-5">
                     <div class="row">
                         <div class="col d-flex flex-column align-items-center">
-                            <input type="hidden" name="id" value="<?=$requestResult[0]->id?>">
+                            <input type="hidden" name="id" value="<?=$requestResult->id?>">
                             <div><img src="/public/assets/img/user.png" alt="" class="userImg"></div>
                             <label for="lastname" class="form-label">Nom</label>
                             <input type="lastname"
@@ -15,7 +16,7 @@
                             id="lastname"
                             aria-describedby="emailHelp"
                             pattern="<?= REGEX_NO_NUMBER ?>"
-                            value="<?=$requestResult[0]->lastname?>"
+                            value="<?=$requestResult->lastname?>"
                             required>
 
                             <label for="firstname" class="form-label">Prénom</label>
@@ -25,7 +26,7 @@
                             id="firstname"
                             aria-describedby="emailHelp"
                             pattern="<?= REGEX_NO_NUMBER ?>"
-                            value="<?=$requestResult[0]->firstname?>"
+                            value="<?=$requestResult->firstname?>"
                             required>
                         </div>
                     </div>
@@ -42,7 +43,7 @@
                                     class="form-control nameUserForm"
                                     name ="phonenumber"
                                     id="phonenumber"
-                                    value="<?=$requestResult[0]->phone?>"
+                                    value="<?=$requestResult->phone?>"
                                     >
                                 </div>
                             
@@ -52,7 +53,7 @@
                                     class="form-control nameUserForm"
                                     name ="birthdate"
                                     id="birthdate"
-                                    value="<?=date("Y-m-d",strtotime($requestResult[0]->birthdate))?>"
+                                    value="<?=date("Y-m-d",strtotime($requestResult->birthdate))?>"
                                     required>
                                 </div>
 
@@ -63,7 +64,7 @@
                             id="email"
                             name ="email"
                             aria-describedby="emailHelp"
-                            value="<?=$requestResult[0]->mail?>"
+                            value="<?=$requestResult->mail?>"
                             required>
                                 </div>
                         </div>

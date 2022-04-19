@@ -65,7 +65,7 @@ if (isset($appointmentError)) {
                 <img src="/public/assets/img/check-solid.svg" alt="" class="svgUser mx-1">
                 Valider
             </button>
-                            
+            
         </form>
 
     <?php } else {   ?>

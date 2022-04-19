@@ -190,4 +190,31 @@ class Appointment {
         }
     }
 
+
+    public static function delete($id) {
+            
+
+        $request = 'DELETE 
+            FROM `appointments` 
+            WHERE `appointments`.`id` = :id ;';
+
+        try {
+
+            $sth = Database::dbConnect()->prepare($request);
+            
+            if (!$sth) {
+                throw new PDOException();
+            }
+            $sth->bindValue(':id', $id, PDO::PARAM_INT);
+            $sth->execute(); 
+            
+            return 'le rdv a bien était supprimé.';
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return 'Il y\'a eu une erreur lors de la suppression du rdv.';
+        }
+        
+    }
+
 }

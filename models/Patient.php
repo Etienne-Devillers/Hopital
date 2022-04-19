@@ -321,4 +321,67 @@ class Patient{
         }
         
     }
+
+    public static function getAppointment($id) {
+        
+        try {
+
+            $sth = Database::dbConnect()->prepare(' SELECT 
+                                                    `dateHour`, `id`
+                                                    FROM `appointments`
+                                                    WHERE `idPatients` = :id
+                                                    ;');
+            if (!$sth) {
+                throw new PDOException();
+            }
+
+            $sth->bindValue(':id', $id, PDO::PARAM_INT);
+            $sth->execute();
+            $result = $sth->fetchAll();
+            return $result;
+            
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return [];
+        }
+        
+    }
+
+    public static function delete($id) {
+        
+        $request = 'DELETE 
+        FROM `appointments` 
+        WHERE `appointments`.`idPatients` = :id ;';
+
+        $request2 = 'DELETE 
+        FROM `patients` 
+        WHERE `patients`.`id` = :id ;';
+        try {
+
+            $sth = Database::dbConnect()->prepare( $request);
+            
+            if (!$sth) {
+                throw new PDOException();
+            }
+
+            $sth2 = Database::dbConnect()->prepare($request2);
+
+            if (!$sth2) {
+                throw new PDOException();
+            }
+
+            $sth->bindValue(':id', $id, PDO::PARAM_INT);
+            $sth2->bindValue(':id', $id, PDO::PARAM_INT);
+            $sth->execute();
+            $sth2->execute(); 
+            
+            return 'le patient a bien était supprimé de la base de données ainsi que ses RDV.';
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return 'Il y\'a eu une erreur lors de la suppression du patient.';
+        }
+        
+    }
 }

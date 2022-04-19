@@ -6,7 +6,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col">
-            <form method="POST" action="/controllers/add-patient-controller.php">
+            <form method="POST" action="/new-patient">
                 <div class="container ">
                     <div class="row ">
 
