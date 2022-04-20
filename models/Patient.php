@@ -221,6 +221,35 @@ class Patient{
         }
     }
 
+    public static function getOffset($offset):array {
+
+        $request = 'SELECT `id`,
+                    `lastname`,
+                    `firstname`,
+                    DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
+                    `phone`,
+                    `mail`
+                    FROM `patients`
+                    LIMIT :offset,
+                    25 ';
+        
+        try {
+            $sth = Database::dbConnect()->prepare($request);
+            
+            if (!$sth) {
+                throw new PDOException();
+            }    
+            $sth->bindvalue(':offset', $offset, PDO::PARAM_INT);
+            $sth->execute();
+            $requestResult = $sth->fetchAll();        
+            return $requestResult;
+
+        } catch(PDOException $e) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return [];
+        }
+    }
+
     public static function getFromId(int $id):object {
 
         try {
@@ -381,6 +410,74 @@ class Patient{
         } catch(PDOException $exception) {
             // header('location: /controllers/error-controller.php?id=2');
             return 'Il y\'a eu une erreur lors de la suppression du patient.';
+        }
+        
+    }
+
+    public static function search($search) {
+        
+        $request = "SELECT `id`, `lastname`, `firstname`, `birthdate`, `phone`, `mail`
+                    FROM `patients`
+                    WHERE `lastname` LIKE :query
+                    OR `firstname` LIKE :query
+                    OR `birthdate` LIKE :query
+                    OR `phone` LIKE :query
+                    OR `mail` LIKE :query ;";
+
+
+        try {
+
+            $sth = Database::dbConnect()->prepare($request);
+            
+            if (!$sth) {
+                throw new PDOException();
+            }
+
+            $sth->bindValue(':query', '%'.$search.'%', PDO::PARAM_STR);
+            $sth->execute();
+            
+            return $sth->fetchAll();
+            
+            
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return 'Aucun patient trouvé';
+        }
+        
+    }
+
+    public static function searchOffset($search, $offset) {
+        
+        $request = "SELECT `id`, `lastname`, `firstname`, `birthdate`, `phone`, `mail`
+                    FROM `patients`
+                    WHERE `lastname` LIKE :query
+                    OR `firstname` LIKE :query
+                    OR `birthdate` LIKE :query
+                    OR `phone` LIKE :query
+                    OR `mail` LIKE :query 
+                    LIMIT :offset, 25;";
+
+
+        try {
+
+            $sth = Database::dbConnect()->prepare($request);
+            
+            if (!$sth) {
+                throw new PDOException();
+            }
+
+            $sth->bindValue(':query', '%'.$search.'%', PDO::PARAM_STR);
+            $sth->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $sth->execute();
+            
+            return $sth->fetchAll();
+            
+            
+
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return 'Aucun patient trouvé';
         }
         
     }

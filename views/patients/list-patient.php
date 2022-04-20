@@ -1,5 +1,48 @@
+<?php var_dump(count($patientList));
+    var_dump($pageNeeded)?>
+
 <h1 class="text-center my-5">liste de tous les patients enregistrés dans la base de données.</h1>
 <h3 class="text-center my-5"><?=$requestResult ?? '' ?></h3>
+<div class="searchContainer container mb-2">
+    <div class="row">
+        <div class="col ">
+            <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="checkboxAjax">
+                <label class="form-check-label" for="checkboxAjax">passer en Ajax</label>
+            </div>
+        <form class="d-flex align-items-center <?=($pageNeeded != 1) ?'justify-content-between' : 'justify-content-end' ?>" action="/patients" method="get">
+
+        <!-- systeme de pagination -->
+        <?php
+        if  ($pageNeeded != 1) { ?> 
+        <nav>
+            <ul class="pagination">
+                <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
+                <a href="<?= !empty($_GET['search']) ? '/patients?search='.$search.'&page='.($currentPage -1): '/patients?page='.($currentPage -1) ?>" class="page-link"> Précédent</a>
+                </li>
+
+                <?php for($page = 1; $page <= $pageNeeded; $page++): ?>
+                <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
+                <a href="<?= !empty($_GET['search']) ? '/patients?search='.$search.'&page='.$page : '/patients?page='.$page ?>" class="page-link"><?= $page ?></a>
+                </li>
+                <?php endfor ?>
+
+                <li class="page-item <?= ($currentPage == $pageNeeded) ? "disabled" : "" ?>">
+                <a href="<?= !empty($_GET['search']) ? '/patients?search='.$search.'&page='.($currentPage +1) : '/patients?page='.($currentPage +1) ?>" class="page-link">Suivante</a>
+                </li>
+            </ul>
+        </nav>
+
+        
+<?php } ?>
+            <div class="d-flex align-items-center">
+                <input class="searchField mx-2" name="search" type="text">
+                <button class=" btn bg-blue" type="submit" value="" id="searchButton"><img src="/public/assets/img/magnifying-glass-solid.svg" alt=""></button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
 <section class="table container">
     <div class="row">
         <div class="col">
@@ -16,7 +59,7 @@
                     </tr>
                 </thead>
                 
-                <tbody>
+                <tbody id="tbody">
                     <?php foreach ($patientList as $key => $value) {
                         ?>
                         <tr>

@@ -26,11 +26,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Clients
+                            Patients
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/new-patient">Ajouter un client</a></li>
-                            <li><a class="dropdown-item" href="/patients">Liste de clients</a></li>
+                            <li><a class="dropdown-item" href="/new-patient">Ajouter un patient</a></li>
+                            <li><a class="dropdown-item" href="/patients">Liste de patients</a></li>
 
                         </ul>
                     </li>
