@@ -481,4 +481,52 @@ class Patient{
         }
         
     }
+
+    public  function addWithAppointment($dateHour) {
+        
+        $request = "INSERT INTO `patients` ( `lastname`, `firstname`, `birthdate`, `phone`, `mail`)
+        VALUES (:lastname, :firstname, :birthdate, :phone, :email);";
+
+        $request2="INSERT INTO `appointments` ( `dateHour`, `idPatients`)
+            VALUES (:datehour, :idpatient);" ;
+
+        try {
+            $this->pdo->beginTransaction();
+
+                $sth = $this->pdo->prepare($request);
+                if (!$sth) {
+                    throw new PDOException();
+                }
+                $sth2 = $this->pdo->prepare($request2);
+                if (!$sth2) {
+                    throw new PDOException();
+                }
+            
+            
+
+                $sth->bindValue(':lastname', $this->getLastname(), PDO::PARAM_STR);
+                $sth->bindValue(':firstname', $this->getFirstname(), PDO::PARAM_STR);
+                $sth->bindValue(':birthdate', $this->getBirthdate(), PDO::PARAM_STR);
+                $sth->bindValue(':phone', $this->getPhone(), PDO::PARAM_STR);
+                $sth->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
+                $sth->execute();
+                
+                $lastId = $this->pdo->lastInsertid();
+
+                $sth2->bindValue(':datehour', $dateHour, PDO::PARAM_STR);
+                $sth2->bindValue(':idpatient', $lastId, PDO::PARAM_INT); 
+                $sth2->execute();
+
+            if (!$sth || !$sth2) {
+                $this->pdo->rollback();
+                throw new PDOException();
+            } else {
+                $this->pdo->commit();
+            }
+        } catch(PDOException $exception) {
+            // header('location: /controllers/error-controller.php?id=2');
+            return 'Aucun patient trouvé';
+        }
+        
+    }
 }

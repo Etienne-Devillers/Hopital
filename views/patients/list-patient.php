@@ -1,5 +1,4 @@
-<?php var_dump(count($patientList));
-    var_dump($pageNeeded)?>
+
 
 <h1 class="text-center my-5">liste de tous les patients enregistrés dans la base de données.</h1>
 <h3 class="text-center my-5"><?=$requestResult ?? '' ?></h3>
@@ -36,7 +35,7 @@
         
 <?php } ?>
             <div class="d-flex align-items-center">
-                <input class="searchField mx-2" name="search" type="text">
+                <input class="searchField mx-2" name="search" type="text" value="<?=$search ?? ''?>">
                 <button class=" btn bg-blue" type="submit" value="" id="searchButton"><img src="/public/assets/img/magnifying-glass-solid.svg" alt=""></button>
             </div>
         </form>

@@ -21,6 +21,24 @@
         });
 
 
-//Recherche dynamique d'un client
+// affichage des champs rendez vous en même temps que les champs pour ajouter un patient.
+
+checkboxAppointment.addEventListener('click', () =>{
+
+    if (checkboxAppointment.checked === true) {
+console.log('hey');
+        document.querySelector('.appointmentField').classList.add('d-flex');
+        document.querySelector('.appointmentField').classList.remove('d-none');
+        document.querySelector('.addPatientForm').action = '/controllers/patients/add-patient-appointment-controller.php';
+        
+    } else {
+        
+        document.querySelector('.appointmentField').classList.add('d-none');
+        document.querySelector('.appointmentField').classList.remove('d-flex');
+        document.querySelector('.addPatientForm').action = '/new-patient';
+
+    }
+
+})
 
 
