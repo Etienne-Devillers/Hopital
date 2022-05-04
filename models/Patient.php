@@ -195,7 +195,7 @@ class Patient{
 
     }
 
-    public static function getAll():array {
+    public static function getAll( $search = '', $offset = 0, $limit = null):array {
 
         $request = 'SELECT `id`,
                     `lastname`,
@@ -203,15 +203,40 @@ class Patient{
                     DATE_FORMAT(`birthdate`, "%d-%m-%Y") as `birthdate`,
                     `phone`,
                     `mail`
-                    FROM `patients`';
+                    FROM `patients`' ;
+
+                    if ($search !== ''){
+                        $request .= ' WHERE `lastname` LIKE :search
+                                        OR `firstname` LIKE :search
+                                        OR `birthdate` LIKE :search
+                                        OR `phone` LIKE :search
+                                        OR `mail` LIKE :search' ;
+                    }
+
+                    if (!is_null($limit)){
+                        $request .= ' LIMIT :offset, :limit' ;
+                    }
+
+        $request .= ';';
         
         try {
-            $sth = Database::dbConnect()->query($request);
+            $sth = Database::dbConnect()->prepare($request);
             
             if (!$sth) {
                 throw new PDOException();
             }    
 
+            if ($search !== ''){
+                $sth -> bindValue(':search', "%$search%", PDO::PARAM_STR );
+                
+            }
+
+            if (!is_null($limit)){
+                $sth -> bindValue(':offset', $offset, PDO::PARAM_INT );
+                $sth -> bindValue(':limit', $limit, PDO::PARAM_INT );
+            }
+
+            $sth->execute();
             $requestResult = $sth->fetchAll();        
             return $requestResult;
 

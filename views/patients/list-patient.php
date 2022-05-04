@@ -1,4 +1,6 @@
-
+<?php
+var_dump();
+?>
 
 <h1 class="text-center my-5">liste de tous les patients enregistrés dans la base de données.</h1>
 <h3 class="text-center my-5"><?=$requestResult ?? '' ?></h3>

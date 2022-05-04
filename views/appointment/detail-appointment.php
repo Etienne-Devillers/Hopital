@@ -40,18 +40,18 @@ if (isset($appointmentError)) {
                                     <option value="<?=$i?>" <?= ($i == date("H", strtotime($requestResult->dateHour)))? 'selected' : ''?>><?=$i?></option>
                                     <?php }
                                     ?>
-                                    </select>
 
+                                    </select> -->
                                         <span class="display-4 mx-1 separator">:</span>
                                     <select name="minutes" id="minutes" class="form-control hourForm2">
                                     <?php
                                     for ($i=0; $i < 60; $i+=15) { 
-                                    
                                     ?>
                                     <option value="<?=$i?>" <?= ($i == date("i", strtotime($requestResult->dateHour)))? 'selected' : ''?>><?=$i?></option>
                                     <?php }
                                     ?>
-                                </select>
+                                    </select>
+
                             </div>
                         </div>
                         <input type="hidden" name="id" value="<?=$requestResult->id?>">

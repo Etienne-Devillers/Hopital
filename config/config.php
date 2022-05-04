@@ -12,5 +12,7 @@ define('ERROR_ARRAY', [
     
 ]);
 
+define('NB_PER_PAGE', 10);
+
 
 
